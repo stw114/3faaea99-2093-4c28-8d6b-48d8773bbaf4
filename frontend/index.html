@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSI300 AI Scanner</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CSI300 <span class="accent">AI Scanner</span></h1>
+            <div class="status-panel">
+                <span id="status-text">Idle</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+            <button id="scan-btn" class="btn-primary">Scan Now</button>
+        </header>
+
+        <main>
+            <div class="stats-grid">
+                <div class="card stat-card">
+                    <h3>Bullish</h3>
+                    <p class="stat-value bull" id="bull-count">0</p>
+                </div>
+                <div class="card stat-card">
+                    <h3>Bearish</h3>
+                    <p class="stat-value bear" id="bear-count">0</p>
+                </div>
+                <div class="card stat-card">
+                    <h3>Neutral</h3>
+                    <p class="stat-value neutral" id="neutral-count">0</p>
+                </div>
+            </div>
+
+            <div class="card table-card">
+                <h2>Latest Results</h2>
+                <div class="table-wrapper">
+                    <table id="results-table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Change %</th>
+                                <th>Signal</th>
+                                <th>Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>

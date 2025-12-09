@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+pandas
+akshare
+torch
+scikit-learn
+jinja2
+python-multipart
