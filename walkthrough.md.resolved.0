@@ -1,0 +1,45 @@
+# CSI300 AI Scanner Web App - Walkthrough
+
+I have successfully converted the `csi300_scanner.py` script into a modern web application.
+
+## Features
+- **Dashboard**: A premium, dark-themed interface displaying market sentiment and top opportunities.
+- **Data Visualization**: Clear table view of stock analysis results with Bull/Bear highlighting.
+- **Background Scanning**: "Scan Now" button triggers the analysis process in the background without freezing the UI.
+- **Responsive Design**: Works on various screen sizes.
+
+## Changes Implemented
+- **Backend**: Created a FastAPI server ([backend/main.py](file:///Users/ag9172/.gemini/antigravity/scratch/csi300_web/backend/main.py)) to serve the API and static files. Refactored the scanning logic into [backend/scanner.py](file:///Users/ag9172/.gemini/antigravity/scratch/csi300_web/backend/scanner.py).
+- **Frontend**: Built a custom HTML/CSS/JS frontend (`frontend/`) with a "financial terminal" aesthetic.
+- **Project Structure**: Organized code into `backend`, `frontend`, and [results](file:///Users/ag9172/.gemini/antigravity/scratch/csi300_web/backend/main.py#39-54) directories.
+
+## Verification Results
+
+### Dashboard View
+The dashboard correctly loads data from the backend and displays the market sentiment.
+
+![Dashboard after triggering scan](/Users/ag9172/.gemini/antigravity/brain/3faaea99-2093-4c28-8d6b-48d8773bbaf4/dashboard_after_scan_1765264348676.png)
+
+### Functionality Tests
+1. **Data Loading**: Confirmed that the app loads existing scan results ([results/latest.csv](file:///Users/ag9172/.gemini/antigravity/scratch/csi300_web/results/latest.csv)).
+2. **Scanning**: Confirmed that clicking "Scan Now" triggers the background task and updates the UI status to "Scanning...".
+3. **API Endpoints**:
+   - `GET /api/results`: Returns JSON data.
+   - `POST /api/scan`: Starts background scan.
+   - `GET /api/status`: Returns current scan status.
+
+## How to Run
+1. Navigate to the project directory:
+   ```bash
+   cd /Users/ag9172/.gemini/antigravity/scratch/csi300_web
+   ```
+2. Install dependencies:
+   ```bash
+   python3 -m pip install -r backend/requirements.txt
+   ```
+3. Start the server:
+   ```bash
+   cd backend
+   python3 -m uvicorn main:app --reload
+   ```
+4. Open your browser at `http://localhost:8000`.
