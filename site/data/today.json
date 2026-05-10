@@ -1,11 +1,20 @@
 {
-  "date": "2024-10-05",
-  "briefTime": "09:30",
-  "theme": "美元指数企稳 低波动环境延续",
-  "themeDetail": "DXY维持103.24附近，VIX低位14.8显示市场平静，WTI油价回落至78.3，10年期美债收益率持稳4.21%。",
-  "market": "外汇市场整体平稳，美元小幅走强，非美货币承压。",
+  "date": "2024-10-04",
+  "briefTime": "08:30 EST",
+  "theme": "Dollar Holds Firm with Low Volatility",
+  "themeDetail": "DXY steady at 103.24, WTI at 78.3, VIX calm at 14.8 and US10Y at 4.21% signal resilient USD amid quiet risk appetite.",
+  "market": {
+    "DXY": 103.24,
+    "WTI": 78.3,
+    "VIX": 14.8,
+    "US10Y": "4.21%"
+  },
   "strongest": "USD",
   "weakest": "EUR",
-  "pairs": ["EURUSD 1.1055", "GBPUSD 1.3102", "USDJPY 149.65"],
-  "weeklyStats": {"DXY": {"open": 102.85, "high": 103.50, "low": 102.60, "close": 103.24}, "WTI": {"open": 77.80, "high": 79.10, "low": 77.20, "close": 78.30}, "VIX": {"open": 15.2, "high": 15.8, "low": 14.5, "close": 14.8}}
+  "pairs": [
+    "EURUSD 1.1050",
+    "GBPUSD 1.3100",
+    "USDJPY 149.50"
+  ],
+  "weeklyStats": "DXY +0.5%, VIX -1.2 pts, US10Y +5 bps"
 }
