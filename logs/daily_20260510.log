@@ -46,3 +46,16 @@ requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: http
 步骤 6/6: Git 推送(如果配置了)...
   - Git 推送已禁用(AUTO_GIT_PUSH != true)
 [2026-05-10 11:25] 完成 ✓
+Traceback (most recent call last):
+  File "/home/xiaofeixiashanmu/forex-brief/main.py", line 55, in run_daily
+    analysis_md, metadata = analyze_forex_opportunities(calendar, news, market_state, levels)
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xiaofeixiashanmu/forex-brief/llm_analyzer.py", line 237, in analyze_forex_opportunities
+    raw = _call_grok(prompt) if LLM_PROVIDER == "grok" else _call_gemini(prompt)
+                                                            ~~~~~~~~~~~~^^^^^^^^
+  File "/home/xiaofeixiashanmu/forex-brief/llm_analyzer.py", line 140, in _call_gemini
+    resp.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/xiaofeixiashanmu/forex-brief/venv/lib/python3.14/site-packages/requests/models.py", line 1028, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyCXLeRiV79e2J5XedljNIMn93nJ7LSEM18

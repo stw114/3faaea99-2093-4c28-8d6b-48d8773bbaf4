@@ -1,5 +1,5 @@
 {
-  "update_time": "2026-05-10 11:25:41",
+  "update_time": "2026-05-10 12:51:58",
   "metadata": {},
   "full_brief": "## 📈 一、昨日复盘\n\n首次运行,暂无历史预测可对比。从明日起本板块会自动显示。\n\n---\n\n",
   "market_state": {
@@ -30,8 +30,8 @@
     },
     "GOLD": {
       "label": "黄金",
-      "value": 4720.39990234375,
-      "change_pct": 0.43831862020386086
+      "value": 4730.7001953125,
+      "change_pct": 0.6574831250084414
     },
     "SP500": {
       "label": "标普 500",
@@ -249,7 +249,26 @@
       "s2": 0.8058379888534546
     }
   },
-  "calendar": [],
+  "calendar": [
+    {
+      "time_utc": "2026-05-10 21:30 UTC",
+      "time_bj": "05-11 09:30 (北京)",
+      "currency": "CNY",
+      "event": "CPI y/y",
+      "impact": "Medium",
+      "forecast": "0.9%",
+      "previous": "1.0%"
+    },
+    {
+      "time_utc": "2026-05-10 21:30 UTC",
+      "time_bj": "05-11 09:30 (北京)",
+      "currency": "CNY",
+      "event": "PPI y/y",
+      "impact": "Medium",
+      "forecast": "1.7%",
+      "previous": "0.5%"
+    }
+  ],
   "actual_moves": {
     "EUR": 0.5187391704889268,
     "GBP": 0.618901828479198,
