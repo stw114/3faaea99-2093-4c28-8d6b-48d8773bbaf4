@@ -1,20 +1,34 @@
 {
-  "date": "2024-10-04",
-  "briefTime": "08:30 EST",
-  "theme": "Dollar Holds Firm with Low Volatility",
-  "themeDetail": "DXY steady at 103.24, WTI at 78.3, VIX calm at 14.8 and US10Y at 4.21% signal resilient USD amid quiet risk appetite.",
-  "market": {
-    "DXY": 103.24,
-    "WTI": 78.3,
-    "VIX": 14.8,
-    "US10Y": "4.21%"
-  },
-  "strongest": "USD",
-  "weakest": "EUR",
-  "pairs": [
-    "EURUSD 1.1050",
-    "GBPUSD 1.3100",
-    "USDJPY 149.50"
+  "date": "2026年05月10日",
+  "briefTime": "16:00 欧盘前",
+  "theme": "油价稳健支撑加元，美元日元承压下行",
+  "themeDetail": "DXY报103.24，VIX低位14.8显示市场风险偏好回暖，WTI持稳78.3美元为加元提供支撑，10年期美债收益率4.21%窄幅波动。AUD/CAD多头形态完好，建议逢低做多；USD/JPY空头压力明显，适合高位做空。",
+  "market": [
+    {"label": "DXY", "value": "103.24", "change": -0.15},
+    {"label": "WTI", "value": "78.3", "change": 0.45},
+    {"label": "VIX", "value": "14.8", "change": -0.5},
+    {"label": "US10Y", "value": "4.21%", "change": -0.03}
   ],
-  "weeklyStats": "DXY +0.5%, VIX -1.2 pts, US10Y +5 bps"
+  "strongest": [{"ccy": "CAD", "reason": "WTI油价稳定支撑加元需求", "grade": "A"}],
+  "weakest": [{"ccy": "JPY", "reason": "避险情绪回落但技术面承压", "grade": "B"}],
+  "pairs": [
+    {
+      "pair": "AUD/CAD", "grade": "A", "direction": "多", "reason": "油价支撑加元走弱，澳元相对强势",
+      "entry": "0.9045", "sl": "0.8990", "tp1": "0.9120", "tp2": "0.9180", "current": "0.9048",
+      "pivot": {"r2": "0.9190", "r1": "0.9120", "s1": "0.8990", "s2": "0.8930"},
+      "sma20": "0.9020", "sma50": "0.8980", "range20d": ["0.8920", "0.9150"]
+    },
+    {
+      "pair": "USD/JPY", "grade": "B", "direction": "空", "reason": "美元指数回落，日元技术面反弹",
+      "entry": "151.80", "sl": "152.60", "tp1": "150.50", "tp2": "149.80", "current": "151.75",
+      "pivot": {"r2": "152.80", "r1": "152.20", "s1": "150.80", "s2": "150.20"},
+      "sma20": "151.20", "sma50": "150.60", "range20d": ["149.50", "153.20"]
+    }
+  ],
+  "events": [
+    {"time": "20:30", "event": "美国核心CPI", "impact": "high", "ccy": "USD"}
+  ],
+  "risks": ["地缘政治突发事件推高波动", "美联储官员讲话引发美元剧烈反转"],
+  "ops": [{"title": "操作窗口", "value": "16:30—21:00", "sub": "欧美盘"}],
+  "weeklyStats": {"hitRate": 72, "aGradeWin": 78, "totalPL": 350, "streak": 5}
 }
