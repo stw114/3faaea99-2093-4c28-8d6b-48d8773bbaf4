@@ -3,69 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forex Command Center | 2026</title>
+    <title>今日财经 | 专业外汇决策终端</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <style>
-        body { background-color: #0f172a; color: #e2e8f0; font-family: 'Inter', sans-serif; }
-        .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px; }
-        .signal-buy { color: #10b981; }
-        .signal-sell { color: #ef4444; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { background-color: #0a0d14; color: #e2e8f0; font-family: 'Inter', -apple-system, sans-serif; }
+        .card { background: #161b27; border: 1px solid #1e2230; border-radius: 10px; }
+        .nav-active { color: #378ADD; border-bottom: 2px solid #378ADD; }
+        [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="p-4 md:p-8">
-    <div class="max-w-4xl mx-auto">
-        <header class="flex justify-between items-center mb-8 border-b border-slate-700 pb-4">
-            <h1 class="text-2xl font-bold tracking-tight">MKT COMMAND <span class="text-blue-500 text-sm">v3.0</span></h1>
-            <div id="date-display" class="text-slate-400 font-mono italic">Loading Terminal...</div>
-        </header>
+<body x-data="fxApp()" x-init="init()" class="min-h-screen pb-12">
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div class="card">
-                <h2 class="text-slate-400 text-xs uppercase tracking-widest mb-4 font-semibold">AI 核心综述</h2>
-                <div id="ai-summary" class="text-lg leading-relaxed">正在同步云端逻辑...</div>
+    <nav class="bg-[#0f1117] border-b border-[#1e2230] px-6 flex items-center gap-8 sticky top-0 z-50 overflow-x-auto">
+        <div class="py-4 mr-4 whitespace-nowrap font-medium text-slate-200">
+            <span class="text-[#378ADD]">今日</span>财经
+        </div>
+        <template x-for="tab in tabs">
+            <button @click="activeTab = tab" 
+                    :class="activeTab === tab ? 'nav-active' : 'text-slate-400'"
+                    class="py-4 px-2 text-sm transition-colors whitespace-nowrap hover:text-[#378ADD]"
+                    x-text="tab"></button>
+        </template>
+        <div class="flex-1"></div>
+        <div class="hidden lg:flex gap-6 items-center">
+            <template x-for="m in market.slice(0,3)">
+                <span class="text-xs">
+                    <span x-text="m.label" class="text-slate-500"></span> 
+                    <span :class="m.change >= 0 ? 'text-green-400' : 'text-red-400'" 
+                          x-text="(m.change >= 0 ? '▲ ' : '▼ ') + m.value"></span>
+                </span>
+            </template>
+        </div>
+    </nav>
+
+    <div class="max-w-[1100px] mx-auto p-5" x-cloak>
+        
+        <div x-show="activeTab === '日报'">
+            <div class="flex justify-between items-start mb-6">
+                <div>
+                    <h1 class="text-2xl font-medium text-slate-100 mb-1">外汇交易日报</h1>
+                    <p class="text-sm text-slate-500" x-text="`${date} · ${briefTime} 发布`"></p>
+                </div>
+                <div class="flex gap-2">
+                    <span class="bg-[#EAF3DE] text-[#27500A] text-[11px] px-3 py-1 rounded-full font-bold" x-text="`周胜率 ${weeklyStats.hitRate || 0}%`"></span>
+                    <span class="bg-[#E6F1FB] text-[#0C447C] text-[11px] px-3 py-1 rounded-full font-bold" x-text="`A级建议 ${weeklyStats.aGradeWin || 0}%`"></span>
+                </div>
             </div>
-            <div class="card">
-                <h2 class="text-slate-400 text-xs uppercase tracking-widest mb-4 font-semibold">核心数据指标</h2>
-                <ul id="market-stats" class="space-y-3 font-mono text-sm">
-                    <li>正在从服务器抓取...</li>
-                </ul>
+
+            <div class="card p-5 mb-6 border-l-4 border-[#378ADD] bg-[#0f1520]">
+                <div class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">市场核心驱动</div>
+                <div class="text-lg font-semibold text-slate-100 mb-2" x-text="theme"></div>
+                <div class="text-sm text-slate-400 leading-relaxed italic" x-text="themeDetail"></div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <template x-for="m in market">
+                    <div class="card p-4">
+                        <div class="text-[11px] text-slate-500 mb-1" x-text="m.label"></div>
+                        <div class="text-xl font-bold text-slate-100" x-text="m.value"></div>
+                        <div class="text-sm mt-1 font-medium" :class="m.change >= 0 ? 'text-green-400' : 'text-red-400'">
+                            <span x-text="m.change >= 0 ? '▲' : '▼'"></span>
+                            <span x-text="Math.abs(m.change)"></span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="card p-5">
+                    <div class="text-[11px] text-slate-500 tracking-widest mb-4 uppercase font-bold">最强货币 (Strongest)</div>
+                    <template x-for="(c, i) in strongest">
+                        <div class="flex items-center gap-4 p-3 rounded-lg mb-2 border" 
+                             :class="i === 0 ? 'bg-[#0d1f0d] border-[#27500A]' : 'bg-[#111820] border-[#1e2230]'">
+                            <div class="w-10 h-10 rounded flex items-center justify-center font-bold text-sm"
+                                 :class="i === 0 ? 'bg-[#EAF3DE] text-[#27500A]' : 'bg-[#1e2230] text-slate-400'" x-text="c.ccy"></div>
+                            <div class="flex-1">
+                                <div class="text-xs text-slate-200 mb-1" x-text="c.reason"></div>
+                                <span class="bg-[#EAF3DE] text-[#27500A] text-[9px] px-2 py-0.5 rounded font-bold uppercase" x-text="'Grade ' + c.grade"></span>
+                            </div>
+                            <span class="text-green-400 text-xl font-bold">▲</span>
+                        </div>
+                    </template>
+                </div>
+                <div class="card p-5">
+                    <div class="text-[11px] text-slate-500 tracking-widest mb-4 uppercase font-bold">最弱货币 (Weakest)</div>
+                    <template x-for="(c, i) in weakest">
+                        <div class="flex items-center gap-4 p-3 rounded-lg mb-2 border" 
+                             :class="i === 0 ? 'bg-[#1f0d0d] border-[#791F1F]' : 'bg-[#111820] border-[#1e2230]'">
+                            <div class="w-10 h-10 rounded flex items-center justify-center font-bold text-sm"
+                                 :class="i === 0 ? 'bg-[#FCEBEB] text-[#791F1F]' : 'bg-[#1e2230] text-slate-400'" x-text="c.ccy"></div>
+                            <div class="flex-1">
+                                <div class="text-xs text-slate-200 mb-1" x-text="c.reason"></div>
+                                <span class="bg-[#FCEBEB] text-[#791F1F] text-[9px] px-2 py-0.5 rounded font-bold uppercase" x-text="'Grade ' + c.grade"></span>
+                            </div>
+                            <span class="text-red-400 text-xl font-bold">▼</span>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-1 h-5 bg-[#378ADD] rounded"></div>
+                    <span class="text-sm font-bold text-slate-400 tracking-widest uppercase">📍 策略池预览</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+                    <template x-for="(p, i) in pairs">
+                        <div @click="selPair = i" 
+                             class="p-4 card cursor-pointer transition-all border-2"
+                             :class="selPair === i ? (p.grade === 'A' ? 'border-[#185FA5] bg-[#0c1a2e]' : 'border-[#3B6D11] bg-[#0d1f0d]') : 'border-[#1e2230]'">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-lg font-bold text-slate-100" x-text="p.pair"></span>
+                                <span class="text-[10px] px-2 py-0.5 rounded font-bold uppercase"
+                                      :class="p.grade === 'A' ? 'bg-[#E6F1FB] text-[#0C447C]' : 'bg-[#EAF3DE] text-[#27500A]'" x-text="'Grade ' + p.grade"></span>
+                            </div>
+                            <div class="text-sm font-bold mb-2" :class="p.direction === '多' ? 'text-green-400' : 'text-red-400'" x-text="p.direction === '多' ? '▲ 做多' : '▼ 做空'"></div>
+                            <div class="text-[11px] text-slate-500 leading-normal line-clamp-2" x-text="p.reason"></div>
+                        </div>
+                    </template>
+                </div>
+
+                <template x-if="pairs[selPair]">
+                    <div class="card p-6 bg-[#0c1420] border-2" :class="pairs[selPair].grade === 'A' ? 'border-[#185FA5]' : 'border-[#3B6D11]'">
+                        <div class="flex justify-between items-center mb-6">
+                            <div class="flex items-center gap-4">
+                                <span class="text-2xl font-bold text-slate-100" x-text="pairs[selPair].pair"></span>
+                                <span class="bg-slate-800 text-slate-300 text-xs px-2 py-1 rounded font-mono" x-text="pairs[selPair].direction === '多' ? 'BULLISH' : 'BEARISH'"></span>
+                            </div>
+                            <div class="text-2xl font-mono text-slate-100" x-text="pairs[selPair].current"></div>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <template x-for="item in [['入场', pairs[selPair].entry, 'text-blue-400'], ['止损', pairs[selPair].sl, 'text-red-400'], ['目标1', pairs[selPair].tp1, 'text-green-400'], ['目标2', pairs[selPair].tp2, 'text-green-400']]">
+                                <div class="bg-[#111820] rounded-lg p-4 text-center">
+                                    <div class="text-[11px] text-slate-500 mb-1" x-text="item[0]"></div>
+                                    <div class="text-xl font-bold" :class="item[2]" x-text="item[1]"></div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
 
-        <div class="card mb-8">
-            <h2 class="text-slate-400 text-xs uppercase tracking-widest mb-4 font-semibold">操作建议 & 交易逻辑</h2>
-            <div id="trading-logic" class="bg-slate-900 p-4 rounded-lg border-l-4 border-blue-500 italic text-slate-300">
-                正在解构高概率 setup...
+        <footer class="mt-16 pt-8 border-t border-[#1e2230] text-center">
+            <div class="text-slate-600 text-[10px] tracking-[0.2em] uppercase font-medium">
+                今日财经 © 2026 Professional Decision Terminal
             </div>
-        </div>
-
-        <footer class="text-center text-slate-500 text-xs mt-12">
-            © 2026 Professional Trading System | Data-Driven Intelligence
         </footer>
     </div>
 
     <script>
-        async function loadData() {
-            try {
-                const response = await fetch('site/data/today.json');
-                const data = await response.json();
+        function fxApp() {
+            return {
+                activeTab: '日报',
+                tabs: ['日报', '复盘统计', '历史归档', '周报'],
+                selPair: 0,
+                date: "Loading...", briefTime: "", theme: "正在载入市场情报...", themeDetail: "",
+                market: [], strongest: [], weakest: [], pairs: [],
+                weeklyStats: {},
                 
-                document.getElementById('date-display').innerText = data.date || new Date().toLocaleDateString();
-                document.getElementById('ai-summary').innerText = data.ai_analysis?.summary || "数据正在生成中...";
-                document.getElementById('trading-logic').innerText = data.ai_analysis?.trading_advice || "暂无特定交易信号";
-                
-                const statsHtml = Object.entries(data.market_data || {}).map(([key, val]) => `
-                    <div class="flex justify-between border-b border-slate-800 pb-1">
-                        <span class="text-slate-500">${key}</span>
-                        <span class="text-blue-400">${val}</span>
-                    </div>
-                `).join('');
-                document.getElementById('market-stats').innerHTML = statsHtml;
-            } catch (e) {
-                document.getElementById('ai-summary').innerText = "报告尚未生成，请确保 run.sh 已运行成功。";
+                async init() {
+                    try {
+                        const res = await fetch('site/data/today.json');
+                        const data = await res.json();
+                        Object.assign(this, data);
+                    } catch (e) {
+                        this.theme = "暂无今日报告，请检查服务器运行状态。";
+                    }
+                }
             }
         }
-        loadData();
     </script>
 </body>
 </html>
