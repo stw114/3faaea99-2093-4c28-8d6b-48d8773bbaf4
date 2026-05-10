@@ -1,1 +1,71 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><title>外汇日报系统</title></head><body style="text-align:center;padding-top:50px;"><h1>📈 外汇日报自动化系统已上线</h1><p>数据已在云端同步，点击下方链接查看最新分析：</p><a href="site/data/today.json" style="font-size:20px;color:blue;">查看今日今日数据 (JSON)</a><br><br><p>2026 百万美元计划执行中</p></body></html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forex Command Center | 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0f172a; color: #e2e8f0; font-family: 'Inter', sans-serif; }
+        .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px; }
+        .signal-buy { color: #10b981; }
+        .signal-sell { color: #ef4444; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="flex justify-between items-center mb-8 border-b border-slate-700 pb-4">
+            <h1 class="text-2xl font-bold tracking-tight">MKT COMMAND <span class="text-blue-500 text-sm">v3.0</span></h1>
+            <div id="date-display" class="text-slate-400 font-mono italic">Loading Terminal...</div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="card">
+                <h2 class="text-slate-400 text-xs uppercase tracking-widest mb-4 font-semibold">AI 核心综述</h2>
+                <div id="ai-summary" class="text-lg leading-relaxed">正在同步云端逻辑...</div>
+            </div>
+            <div class="card">
+                <h2 class="text-slate-400 text-xs uppercase tracking-widest mb-4 font-semibold">核心数据指标</h2>
+                <ul id="market-stats" class="space-y-3 font-mono text-sm">
+                    <li>正在从服务器抓取...</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card mb-8">
+            <h2 class="text-slate-400 text-xs uppercase tracking-widest mb-4 font-semibold">操作建议 & 交易逻辑</h2>
+            <div id="trading-logic" class="bg-slate-900 p-4 rounded-lg border-l-4 border-blue-500 italic text-slate-300">
+                正在解构高概率 setup...
+            </div>
+        </div>
+
+        <footer class="text-center text-slate-500 text-xs mt-12">
+            © 2026 Professional Trading System | Data-Driven Intelligence
+        </footer>
+    </div>
+
+    <script>
+        async function loadData() {
+            try {
+                const response = await fetch('site/data/today.json');
+                const data = await response.json();
+                
+                document.getElementById('date-display').innerText = data.date || new Date().toLocaleDateString();
+                document.getElementById('ai-summary').innerText = data.ai_analysis?.summary || "数据正在生成中...";
+                document.getElementById('trading-logic').innerText = data.ai_analysis?.trading_advice || "暂无特定交易信号";
+                
+                const statsHtml = Object.entries(data.market_data || {}).map(([key, val]) => `
+                    <div class="flex justify-between border-b border-slate-800 pb-1">
+                        <span class="text-slate-500">${key}</span>
+                        <span class="text-blue-400">${val}</span>
+                    </div>
+                `).join('');
+                document.getElementById('market-stats').innerHTML = statsHtml;
+            } catch (e) {
+                document.getElementById('ai-summary').innerText = "报告尚未生成，请确保 run.sh 已运行成功。";
+            }
+        }
+        loadData();
+    </script>
+</body>
+</html>
